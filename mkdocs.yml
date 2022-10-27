@@ -1,2 +1,10 @@
 site_name: Sway 🌴 - Version FR
 theme: readthedocs
+nav:
+  - Accueil: index.md
+  - Introduction:
+    - Introduction: introduction/introduction.md
+    - Démarrage: introduction/demarrage.md
+    - Installation: introduction/installation.md
+    - La toolchain Fuel: introcution/toolchainFuel.md
+    - Mon premier projet: introduction/forcProject.md
