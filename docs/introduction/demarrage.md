@@ -39,7 +39,7 @@ Quelques informations qui seront utiles avant de continuer :
 
 ### [Écrire le contrat](#writing-the-contract)
 
-Tout d'abord, [installons la chaîne d'outils Sway](./installation.html). Puis, avec `forc` installé, créons un projet de contrat :
+Tout d'abord, [installons la toolchain Sway](./installation.html). Puis, avec `forc` installé, créons un projet de contrat :
 
     forc new counter_contract
     
@@ -138,4 +138,84 @@ Construisez `counter_contract` en exécutant la commande suivante dans votre ter
     forc build
     
 
-Vous devriez s
+Vous devriez voir quelque chose comme cette sortie :
+
+    Bibliothèque compilée "core".
+      Bibliothèque compilée "std".
+      Contrat compilé "counter_contract".
+      La taille du bytecode est de 224 octets.
+    
+
+### [Déployer le contrat](#deployer-le-contrat)
+
+Il est maintenant temps de déployer le contrat et de l'appeler sur un nœud Fuel. Nous allons montrer comment le faire en utilisant `forc` en ligne de commande, mais vous pouvez aussi le faire en utilisant le [Rust SDK](https://fuellabs.github.io/fuels-rs/master/getting-started/contracts.html) ou le [TypeScript SDK](https://fuellabs.github.io/fuels-ts/#deploying-contracts).
+
+### [Faite tourner votre noeud Fuel](#spin-up-a-fuel-node)
+
+Dans un onglet séparé de votre terminal, créez un nœud Fuel local :
+
+    fuel-core run --db-type in-memory
+    
+
+Ceci démarre un noeud Fuel avec une base de données volatile qui sera effacée à l'arrêt (bon pour les tests).
+
+### [Déployer `counter_contract` vers votre noeud Fuel local](#deploy-counter_contract-to-your-local-fuel-node)
+
+Pour déployer `counter_contract` sur votre noeud Fuel local, ouvrez un nouvel onglet de terminal et exécutez la commande suivante depuis la racine du répertoire `wallet_contract` :
+
+    forc deploy --unsigned
+    
+
+**Note** Vous ne pouvez pas utiliser la même session de terminal qui exécute fuel-core pour exécuter d'autres commandes car cela mettrait fin à votre processus fuel-core.
+
+Ceci devrait produire une sortie dans `stdout` qui ressemble à ceci :
+
+    $ forc deploy --unsigned
+      Bibliothèque compilée "core".
+      Bibliothèque compilée "std".
+      Contrat compilé "counter_contract".
+      La taille du bytecode est de 224 octets.
+    Contract id: 0xaf94c0a707756caae667ee43ca18bace441b25998c668010192444a19674dc4f
+    Journaux :
+    TransactionId(HexFormatted(7cef24ea33513733ab78c5daa5328d622d4b38187d0f0d1857b272090d99f96a))
+    
+
+Notez l'identifiant du contrat - vous en aurez besoin si vous voulez construire un frontend pour interagir avec ce contrat.
+
+[Test de votre contrat](#testing-your-contract)
+-----------------------------------------------
+
+Dans le répertoire `tests`, naviguez jusqu'à `harness.rs.` Ici vous verrez qu'il y a un peu de code passe-partout pour vous aider à commencer à interagir avec et à tester votre contrat.
+
+Au bas du fichier, définissez le corps de `can_get_contract_instance`. Voici à quoi devrait ressembler votre code pour vérifier que la valeur du compteur a bien été incrémentée :
+
+    #[tokio::test]
+    async fn can_get_contract_instance() {
+        // Incrémente le compteur
+        let _result = instance.increment().call().await.unwrap() ;
+    
+        // Récupère la valeur actuelle du compteur
+        let result = instance.counter().call().await.unwrap() ;
+        assert !(result.value > 0) ;
+    }
+    
+
+Exécutez la commande suivante dans le terminal : `forc test`.
+
+Vous verrez quelque chose comme ceci dans votre sortie :
+
+      Bibliothèque compilée "core".
+      Bibliothèque compilée "std".
+      Contrat compilé "counter_contract".
+      La taille du bytecode est de 224 octets.
+       Compilation de counter_contract v0.1.0 (<path/to/counter_contract>)
+        Terminé test [unoptimized + debuginfo] cible(s) en 4.55s
+         Exécution de tests/harness.rs (target/debug/deps/integration_tests-7a2922c770587b45)
+    
+    Exécution de 1 test
+    test can_get_contract_id ... ok
+    
+    Résultat du test : ok. 1 réussi ; 0 échoué ; 0 ignoré ; 0 mesuré ; 0 filtré ; terminé en 0.09s
+    
+
+Félicitations, vous venez de créer et de tester votre premier contrat intelligent Sway 🎉. Vous pouvez maintenant construire un frontend pour interagir avec votre contrat en utilisant le SDK TypeScript. Vous pouvez trouver un guide étape par étape pour construire un front-end pour votre projet [ici](https://fuellabs.github.io/fuels-ts/QUICKSTART.html).
