@@ -6,5 +6,10 @@ nav:
     - Introduction: introduction/introduction.md
     - Démarrage: introduction/demarrage.md
     - Installation: introduction/installation.md
-    - La toolchain Fuel: introcution/toolchainFuel.md
+    - La toolchain Fuel: introduction/toolchainFuel.md
     - Mon premier projet: introduction/forcProject.md
+  - Examples:
+    - Counter: examples/counter.md
+    - Subcurrency: examples/subcurrency.md
+    - Fizzbuzz: examples/fizzbuzz.md
+    - Wallet Smart Contract: examples/wallet-smart-contract.md
