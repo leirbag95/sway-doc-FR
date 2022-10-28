@@ -8,8 +8,13 @@ nav:
     - Installation: introduction/installation.md
     - La toolchain Fuel: introduction/toolchainFuel.md
     - Mon premier projet: introduction/forcProject.md
-  - Examples:
+  - Exemples:
     - Counter: examples/counter.md
     - Subcurrency: examples/subcurrency.md
     - Fizzbuzz: examples/fizzbuzz.md
     - Wallet Smart Contract: examples/wallet-smart-contract.md
+  - Types de programmes:
+    - Contrats: program-type/contrats.md
+    - Bibliotheque: program-type/bibliotheque.md
+    - Scripts: program-type/scripts.md
+    - Prédicats: program-type/predicats.md
