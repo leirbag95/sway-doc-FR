@@ -18,3 +18,6 @@ nav:
     - Bibliotheque: program-type/bibliotheque.md
     - Scripts: program-type/scripts.md
     - Prédicats: program-type/predicats.md
+  - Les bases du langage Sway:
+    - Variables: sway-language-basics/variables.md
+    - Build-in Types: sway-language-basics/build-in-types.md
